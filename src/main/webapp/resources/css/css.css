@@ -1,0 +1,83 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14/04/2016, 15:17:51
+    Author     : Julio
+*/
+
+.botaoAzulLogin {
+    padding: 2%;
+    margin:2%;
+    border:1px solid #A3DAD9;
+    position:relative;
+    border-radius: 10px;
+    color:white;
+    cursor: pointer;
+    background-color: #A3DAD9;
+    background: #0098DA;
+}
+.botaoAzulLogin:hover {
+    color:#fff;
+    border:1px solid #122b40;
+    background-color: #0E69D1;
+    background: #0E69D1;
+}
+
+
+.limpar {
+    padding: 0.5%;
+    border:1px solid #A3DAD9;
+    position:relative;
+    float: left;
+    border-radius: 10px;
+    color:#fff;
+    cursor: pointer;
+    background-color: #8CA9D2;
+}
+.limpar:hover {
+    color:#fff;
+    border:1px solid #122b40;
+    background-color: #0E69D1;
+}
+
+
+.tamanhoTituloTabela{
+    font-size: 25px;
+}
+
+body{
+    overflow-x: hidden;
+}
+
+#tessste{
+     overflow-x: hidden;
+}
+
+
+
+.acordion{
+    background: black !important;
+}
+
+
+.ui-inputfield {
+    margin: 0;
+    outline: medium none;
+    padding: 4px;
+    font-weight: normal;
+    font-size: 30px;
+    height: 50px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item {
+    border: 0px none;
+    margin: 1px 0;
+    padding: 3px 5px;
+    text-align: left;
+    font-size: 30px;
+    /* top: 20px; */
+    white-space: nowrap;
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Panoramico</title>
+        <link rel="stylesheet" type="text/css" href="resources/css/endless.min.css"/>
+        <link href="resources/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/layout.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/menu.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/buttons.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/tabelas.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/textos.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/modal.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/css.css"/>
+
+        <!-- FONTS -->
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font-awesome-4.6.3/css/font-awesome.min.css"/>
+    </h:head>
+
+    <body>
+        <h:form id="idTelaInicial">
+            <div class="col-10 boxAzulClaro" style="width: 100%;">
+                <p:growl id="growl"/>
+                <br/><br/>
+                <h:panelGroup rendered="#{exameMB.habilitarConsExame}" id="PanelConsExame">
+                    <fieldset>
+                        <legend style="font-size: 40px;">
+                            Solicitações de Exame
+                            <p:commandLink disabled="false" style="width: 95%; margin-left:2%;" ajax="false" action="#{usuarioLogadoMB.deslogar()}"> 
+                                <div style="font-size: 40px;" class="fa fa-sign-out"></div>
+                            </p:commandLink>
+                        </legend>
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" style="margin-left:8%;width: 80%;"/>
+                        <p:accordionPanel activeIndex="-1" style="margin-left:2%; width: 98%;font-size: 30px;" id="PanelPesquisa">
+                            <p:tab title="Pesquisar"> 
+                                <p:outputLabel class="titTela" value="Situação" style="font-size: 30px;text-align: left;float: left;"/>
+                                <p:outputLabel class="titTela" value="Periodo" style="font-size: 30px;text-align: left;margin-left: 20%;float: left;"/>
+                                <br/>
+                                <p:selectOneMenu class="form-control" id="estado" value="#{exameMB.situacao}"  style="width:30%;font-size: 30px;float: left;margin-left: -49%;height: 70px;">
+                                    <f:selectItem itemLabel="Selecione" itemValue="sn" noSelectionOption="true"/> 
+                                    <f:selectItem itemLabel="Apto" itemValue="Apto" /> 
+                                    <f:selectItem itemLabel="Inapto" itemValue="Inapto" />
+                                </p:selectOneMenu>
+                                <p:inputMask mask="99/99/9999" size="10"  value="#{exameMB.dataInicio}" style="margin-left:-14%;font-size: 30px;float: left;">
+                                    <f:convertDateTime   pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/>
+                                </p:inputMask>
+                                <p:inputMask mask="99/99/9999" size="10" value="#{exameMB.dataFinal}" style="margin-left:2%;font-size: 30px;float: left;">
+                                    <f:convertDateTime   pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/>
+                                </p:inputMask>
+                                <br/><br/>
+                                <p:commandLink style="text-decoration: none; margin-top: 10%;" actionListener="#{exameMB.filtrar()}" ajax="false" update="idConsultaExame, growl">
+                                    <div style="font-size: 30px;margin-left: 60%;" class="adicionar">Filtrar</div>
+                                </p:commandLink>
+                                <p:commandLink style="text-decoration: none; margin-top: 2%;" actionListener="#{exameMB.limparFiltro()}" ajax="false" update="@form">
+                                    <div style="font-size: 30px;margin-left: 2%;" class="limpar">Limpar</div>
+                                </p:commandLink>
+                            </p:tab>  
+                        </p:accordionPanel>
+                        <br/>
+                        <!-- TABELA CADASTROS -->
+                        <br/>
+                        <h:dataTable id="idConsultaExame" style="font-size:40px; width: 98%;" styleClass="table" value="#{exameMB.listaExames}" var="exame">
+                            <h:column>
+                                <f:facet name="header"><b style="font-size: 40px;">Nome</b></f:facet> 
+                                <h:outputText value="#{exameMB.pegarValores(exame)}" styleClass="alinhamento" style="float: left;font-size: 25px;"/>
+                            </h:column>
+                            <h:column >  
+                                <f:facet name="header"><b style="font-size: 40px;">Diagnostico</b></f:facet>
+                                <h:outputText value="#{exame.diagnostico}" styleClass="alinhamento" style="float: left;font-size: 25px;"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header"><b style="font-size: 40px;">Validade</b></f:facet> 
+                                <h:outputText value="#{exame.datavalidade}" styleClass="alinhamento" style="float: left;font-size: 25px;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"
+                                                       timeZone="America/Sao_Paulo" />
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <h:outputText value="#{exame.situacao}" styleClass="alinhamento" style="float: left;font-size: 25px;" />
+                            </h:column>
+                            <h:column>
+                                <p:commandLink  title="diagnóstico" ajax="false;" action="#{exameMB.diagnostico(exame)}" update=":idTelaInicial:PanelConsExame, :idTelaInicial:PanelExame, idConsultaExame, :idTelaInicial:PanelPesquisa">
+                                    <div class="fa fa-user-md" style="font-size: 60px;">
+                                    </div>
+                                </p:commandLink>
+                            </h:column> 
+                        </h:dataTable>
+                    </fieldset>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{exameMB.habilitarExame}" id="PanelExame">
+                    <fieldset>
+                        <legend style="font-size: 40px;">
+                            Diagnóstio 
+                            <p:commandLink disabled="false" style="width: 95%; margin-left:2%;font-size: 40px;" ajax="false" action="#{usuarioLogadoMB.deslogar()}"> 
+                                <div style="font-size: 40px;" class="fa fa-sign-out"></div>
+                            </p:commandLink>
+                        </legend>
+
+                        <p:outputLabel class="titTela" value="Medico" style="font-size: 40px;text-align: left;margin-left: 4%; float: left;"/>
+                        <p:outputLabel class="titTela" value="Situação" style="font-size: 40px;text-align: left;margin-left: 13%;"/>
+                        <br/> 
+                        <p:selectOneMenu class="form-control"  id="cliente"  style="width: 40%;margin-left: 4%;font-size: 40px;float: left;height: 70px;"  value="#{exameMB.medico}" converter="MedicoConverter"
+                                        >
+                            <f:selectItem  itemLabel="Selecione" itemValue="0" noSelectionOption="true"/> 
+                            <f:selectItems  value="#{exameMB.listaMedico}" var="medicoselecionado" itemLabel="#{medicoselecionado.nome}" itemValue="#{medicoselecionado}"/>
+                            <f:attribute name="listaMedico" value="#{exameMB.listaMedico}"/>
+                        </p:selectOneMenu> 
+                        <p:selectOneMenu class="form-control" id="situacao" value="#{exameMB.exame.situacao}"  style="width:40%;margin-left:57%; font-size: 40px;height: 70px;">
+                            <f:selectItem itemLabel="Selecione" itemValue="sn" noSelectionOption="true"/> 
+                            <f:selectItem itemLabel="Apto" itemValue="Apto" /> 
+                            <f:selectItem itemLabel="Inapto" itemValue="Inapto" /> 
+                        </p:selectOneMenu>
+                        <br/>
+                        <p:outputLabel class="titTela" value="Data" style="font-size: 40px;text-align: left;margin-left: 4%; float: left;"/>
+                        <p:outputLabel class="titTela" value="Validade" style="font-size: 40px;text-align: left;margin-left: 18%;"/>
+                        <br/>
+                        <p:inputMask mask="99/99/9999" size="15" class="form-control" value="#{exameMB.exame.data}" style="margin-left:4%;font-size: 40px;height: 90px; float: left; width: 40%;">
+                            <f:convertDateTime   pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/>
+                            <p:ajax event="change" listener="#{exameMB.calcularValidade()}" update="idValidade"/>
+                        </p:inputMask> 
+                        <p:inputMask id="idValidade" mask="99/99/9999" readonly="true" size="15" class="form-control" value="#{exameMB.exame.datavalidade}" style="width:40%; margin-left:57%;font-size: 40px;height: 90px;">
+                            <f:convertDateTime   pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/>
+                        </p:inputMask>
+                        <br/>
+                        <p:outputLabel class="titTela" value="Diagnostico" style="font-size: 40px;text-align: left; margin-left: 4%;float: left;"/>
+                        <br/>
+                        <p:inputTextarea  class="form-control" value="#{exameMB.exame.diagnostico}" style="width:93%;margin-left:4%;font-size: 40px;"/>
+                        <br/><br/>
+                        <br/> 
+                        <br/><br/><br/>
+                        <hr style="color: #367587; background: #367587"/>
+                        <br/>  
+                        <p:commandLink style="text-decoration: none;" actionListener="#{exameMB.salvar()}" ajax="false">
+                            <div style="font-size: 40px;margin-left: 32%;" class="cadastrar">Cadastrar</div>
+                        </p:commandLink>
+                        <p:commandLink style="text-decoration: none;" action="#{exameMB.cancelar()}" ajax="false">
+                            <div style="font-size: 40px" class="cancelar">Cancelar</div>
+                        </p:commandLink>
+                    </fieldset>
+                </h:panelGroup>
+            </div>
+        </h:form> 
+    </body>
+</html>
