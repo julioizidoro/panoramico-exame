@@ -211,14 +211,16 @@ public class ExameMB implements Serializable{
 
     
     public void diagnostico(Exame e){
-        exame = e;
-        habilitarConsExame = false;
-        habilitarExame = true;
         gerarListaMedicos();
-        if (exame == null) {
-            exame = new Exame();
+        if (medico == null) {
+            Mensagem.lancarMensagemInfo("Acesso Negado !!", "");
         }else{
-            medico = exame.getMedico();
+            exame = e;
+            habilitarConsExame = false;
+            habilitarExame = true;
+            if (exame == null) {
+                exame = new Exame();
+            }
         }
     }
     
@@ -331,5 +333,11 @@ public class ExameMB implements Serializable{
         if (listaMedico == null) {
             listaMedico = new ArrayList<Medico>();
         }
+        for (int i = 0; i < listaMedico.size(); i++) {
+            if (listaMedico.get(i).getIdusuario() == usuarioLogadoMB.getUsuario().getIdusuario()) {
+                medico = listaMedico.get(i);
+            }
+        }
     }
+    
 }

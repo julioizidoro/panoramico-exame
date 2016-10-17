@@ -103,16 +103,9 @@
                             </p:commandLink>
                         </legend>
 
-                        <p:outputLabel class="titTela" value="Medico" style="font-size: 40px;text-align: left;margin-left: 4%; float: left;"/>
-                        <p:outputLabel class="titTela" value="Situação" style="font-size: 40px;text-align: left;margin-left: 13%;"/>
+                        <p:outputLabel class="titTela" value="Situação" style="font-size: 40px;text-align: left;margin-left: 4%;"/>
                         <br/> 
-                        <p:selectOneMenu class="form-control"  id="cliente"  style="width: 40%;margin-left: 4%;font-size: 40px;float: left;height: 70px;"  value="#{exameMB.medico}" converter="MedicoConverter"
-                                        >
-                            <f:selectItem  itemLabel="Selecione" itemValue="0" noSelectionOption="true"/> 
-                            <f:selectItems  value="#{exameMB.listaMedico}" var="medicoselecionado" itemLabel="#{medicoselecionado.nome}" itemValue="#{medicoselecionado}"/>
-                            <f:attribute name="listaMedico" value="#{exameMB.listaMedico}"/>
-                        </p:selectOneMenu> 
-                        <p:selectOneMenu class="form-control" id="situacao" value="#{exameMB.exame.situacao}"  style="width:40%;margin-left:57%; font-size: 40px;height: 70px;">
+                        <p:selectOneMenu class="form-control" id="situacao" value="#{exameMB.exame.situacao}"  style="width:40%;margin-right: 75%; font-size: 40px;height: 70px;">
                             <f:selectItem itemLabel="Selecione" itemValue="sn" noSelectionOption="true"/> 
                             <f:selectItem itemLabel="Apto" itemValue="Apto" /> 
                             <f:selectItem itemLabel="Inapto" itemValue="Inapto" /> 
@@ -138,7 +131,7 @@
                         <hr style="color: #367587; background: #367587"/>
                         <br/>  
                         <p:commandLink style="text-decoration: none;" actionListener="#{exameMB.salvar()}" ajax="false">
-                            <div style="font-size: 40px;margin-left: 32%;" class="cadastrar">Cadastrar</div>
+                            <div style="font-size: 40px;margin-left: 32%;" class="cadastrar">Confirmar</div>
                         </p:commandLink>
                         <p:commandLink style="text-decoration: none;" action="#{exameMB.cancelar()}" ajax="false">
                             <div style="font-size: 40px" class="cancelar">Cancelar</div>
